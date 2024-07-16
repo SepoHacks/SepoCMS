@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Forum Post</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        background-color: #212121;
+        color: #ffffff;
+        font-family: "Roboto", sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        box-sizing: border-box;
+      }
+
+      .container {
+        width: 90%;
+        max-width: 1000px;
+        margin: 2rem;
+        padding: 5rem;
+        background-color: #2c2c2c;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .title {
+        font-size: 3.5rem;
+        margin-bottom: 1rem;
+        color: #ffd700;
+        text-align: center;
+      }
+
+      .content {
+        font-size: 2.2rem;
+        margin-bottom: 2rem;
+        line-height: 1.6;
+        width: 100%;
+      }
+
+      .comments {
+        margin-top: 2rem;
+        padding: 1rem;
+        background-color: #3a3a3a;
+        border-radius: 8px;
+        width: 100%;
+      }
+
+      .comment {
+        margin: 0.5rem 0;
+        padding: 0.5rem;
+        border-bottom: 1px solid #555;
+      }
+
+      .userCom {
+        width: 100%;
+        padding: 0.5rem;
+        margin: 1rem 0;
+        border-radius: 8px;
+        border: 1px solid #555;
+        background-color: #444;
+        color: #fff;
+      }
+
+      .comment-alert {
+        color: #ff6347;
+        margin-top: 0.5rem;
+        text-align: center;
+      }
+
+      .com {
+        display: block;
+        width: 100%;
+        background-color: #6c5ce7;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        color: #fff;
+        font-size: 1rem;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        text-align: center;
+        margin-top: 1rem;
+      }
+
+      .com:hover {
+        background-color: #5941d4;
+      }
+
+      @media (max-width: 768px) {
+        .title {
+          font-size: 2rem;
+        }
+
+        .content {
+          font-size: 1rem;
+        }
+
+        .com {
+          padding: 0.5rem 1rem;
+          font-size: 0.9rem;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1 class="title">Loading...</h1>
+      <p class="content">Loading...</p>
+
+      <div class="comments"></div>
+
+      <input type="text" class="userCom" placeholder="Your comment" />
+      <p class="comment-alert"></p>
+      <button class="com">Comment</button>
+    </div>
+
+    <script>
+      const titleEl = document.querySelector(".title");
+      const contentEl = document.querySelector(".content");
+      const commentsEl = document.querySelector(".comments");
+      const userComEl = document.querySelector(".userCom");
+      const comBtn = document.querySelector(".com");
+      const alertB = document.querySelector(".comment-alert");
+
+      const urlArray = window.location.pathname.split("/");
+      const postId = urlArray[urlArray.length - 1];
+
+      addEventListener("load", () => {
+        fetch(`/posts/get/${postId}/data`)
+          .then((res) => {
+            if (!res.ok) {
+              titleEl.textContent = "Error: Post can't load";
+              contentEl.textContent = "";
+              throw new Error("Post fetch failed");
+            }
+            return res.json();
+          })
+          .then((data) => {
+            if (!data.title) {
+              titleEl.textContent = data.msg;
+              contentEl.textContent = "";
+              return;
+            }
+            titleEl.textContent = data.title;
+            contentEl.textContent = data.content;
+          })
+          .catch((error) => {
+            console.error("Error fetching post:", error);
+            titleEl.textContent = "Something went wrong";
+            contentEl.textContent = "";
+          });
+
+        fetch(`/posts/get/${postId}/data/comments`)
+          .then((res) => {
+            if (!res.ok) {
+              commentsEl.textContent = "Can't load comments";
+              throw new Error("Comments fetch failed");
+            }
+            return res.json();
+          })
+          .then((data) => {
+            if (!Array.isArray(data)) {
+              commentsEl.textContent = data.msg;
+              return;
+            }
+
+            commentsEl.innerHTML = "";
+
+            for (let i = 0; i < data.length; i++) {
+              let commentHtml = `<div class="comment"><strong>${data[i].user_email}</strong>: ${data[i].comment}</div>`;
+              commentsEl.innerHTML += commentHtml;
+            }
+          })
+          .catch((error) => {
+            console.error("Error fetching comments:", error);
+            commentsEl.textContent = "Can't load comments";
+          });
+      });
+
+      comBtn.addEventListener("click", () => {
+        const info = {
+          comment: userComEl.value,
+        };
+
+        fetch(`/posts/get/${postId}/comment`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(info),
+        })
+          .then((res) => {
+            if (!res.ok) {
+              alertB.textContent = "Something went wrong";
+              return;
+            }
+
+            return res.json();
+          })
+          .then((data) => {
+            alertB.textContent = data.msg;
+            if (data.success) {
+              commentsEl.innerHTML += `<div class="comment"><strong>You:</strong> ${info.comment}</div>`;
+              userComEl.value = "";
+            }
+          });
+      });
+    </script>
+  </body>
+</html>

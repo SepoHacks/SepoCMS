@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Post Center</title>
+    <style>
+      * {
+        font-family: sans-serif;
+      }
+
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        background-color: #212121;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        height: 100%;
+      }
+
+      .input {
+        color: #212121;
+        font-size: 0.9rem;
+        background-color: #fff;
+        width: 100%;
+        box-sizing: border-box;
+        padding-inline: 0.5em;
+        padding-block: 0.7em;
+        border: none;
+        border-bottom: var(--border-height) solid var(--border-before-color);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        margin-top: 8px;
+      }
+
+      .input2 {
+        color: #212121;
+        font-size: 0.9rem;
+        background-color: #fff;
+        width: 100%;
+        box-sizing: border-box;
+        padding-inline: 0.5em;
+        padding-block: 0.7em;
+        border: none;
+        border-bottom: var(--border-height) solid var(--border-before-color);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        margin-top: 8px;
+      }
+
+      .input-border {
+        position: absolute;
+        background: var(--border-after-color);
+        height: 2px;
+        width: 100%;
+        bottom: 0;
+        left: 0;
+        transform: scaleX(0%);
+        transition: transform 0.3s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+      }
+
+      .input:focus {
+        outline: none;
+      }
+
+      .input:focus + .input-border {
+        transform: scaleX(100%);
+      }
+
+      .form-control {
+        position: relative;
+        --width-of-input: 300px;
+      }
+
+      .input-alt {
+        font-size: 1.2rem;
+        padding-inline: 1em;
+        padding-block: 0.8em;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .input-border-alt {
+        height: 3px;
+        background: linear-gradient(
+          90deg,
+          #ff6464 0%,
+          #ffbf59 50%,
+          #47c9ff 100%
+        );
+        transition: transform 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+      }
+
+      .input-alt:focus + .input-border-alt {
+        transform: scaleX(100%);
+      }
+    </style>
+  </head>
+  <body>
+    <p class="alert" style="text-align: center; color: white"></p>
+    <h1 style="text-align: center; color: white">Create New Post</h1>
+
+    <div class="form-control">
+      <input
+        type="text"
+        placeholder="Post Title"
+        class="input2 input-alt title"
+      />
+      <span class="input-border input-border-alt"></span>
+    </div>
+
+    <div class="form-control">
+      <input
+        type="text"
+        placeholder="Post Content"
+        class="input input-alt content"
+      />
+      <span class="input-border input-border-alt"></span>
+    </div>
+
+    <p>
+      <button
+        class="post"
+        style="
+          border: none;
+          background-color: #009bf5;
+          font-size: 20px;
+          border-radius: 5px;
+          padding: 10px 20px;
+          color: white;
+          margin-top: 7px;
+        "
+      >
+        Post
+      </button>
+    </p>
+
+    <script>
+      const alertP = document.querySelector(".alert");
+
+      document.querySelector(".post").addEventListener("click", () => {
+        const info = {
+          title: document.querySelector(".title").value,
+          content: document.querySelector(".content").value,
+        };
+
+        fetch("/posts/post", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(info),
+        })
+          .then((res) => {
+            if (!res.ok) {
+              alertP.textContent = "Somthing is wrong";
+              return;
+            }
+
+            return res.json();
+          })
+          .then((data) => {
+            alertP.textContent = data.msg;
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      });
+    </script>
+  </body>
+</html>

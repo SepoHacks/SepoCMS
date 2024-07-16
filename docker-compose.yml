@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  node_app:
+    container_name: node_app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:1337"
+    environment:
+      - DB_HOST=db
+      - DB_USER=cms
+      - DB_PASS=cms
+      - DB_NAME=cms-db
+      - JWT_SECRET=super_secret_secret
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    container_name: mysql_db
+    image: mysql:8
+    environment:
+      - MYSQL_DATABASE=cms-db
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=cms
+      - MYSQL_PASSWORD=cms
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  mysql_data:
+    driver: local
