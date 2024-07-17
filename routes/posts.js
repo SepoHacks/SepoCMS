@@ -11,7 +11,6 @@ router.post("/post", jwtAuth.adminOnly, postsController.sendNewPost);
 router.get("/getAll", jwtAuth.authenticate, postsController.getAllPosts);
 
 // Custom Posts
-
 router.get("/get/:id", jwtAuth.authenticate, (req, res) => {
   res.render("customPosts");
 });
@@ -20,6 +19,5 @@ router.get("/get/:id/data", jwtAuth.authenticate, postsController.getCustomPostD
 router.get("/get/:id/data/comments", jwtAuth.authenticate, postsController.getCustomPostComments);
 
 router.post("/get/:id/comment", jwtAuth.authenticate, postsController.sendComment);
-
 
 module.exports = router;

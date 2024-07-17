@@ -11,7 +11,6 @@ router.get("/", jwtAuth.authenticate, (req, res) => {
   res.render("allPosts");
 });
 
-
 // Auth
 router.get("/login", (req, res) => {
   res.render("login");

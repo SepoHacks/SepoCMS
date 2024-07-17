@@ -1,14 +1,14 @@
 {
   "name": "cms",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "main": "app.js",
   "scripts": {
     "dev": "nodemon app.js",
     "start": "node app.js"
   },
   "keywords": [],
-  "author": "CyberSepo",
-  "license": "ISC",
+  "author": "CyberSepo (Sepehr Bostan)",
+  "license": "GPL-3.0",
   "description": "Content Mangement System",
   "devDependencies": {
     "nodemon": "^3.1.4"

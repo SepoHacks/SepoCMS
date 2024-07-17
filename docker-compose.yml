@@ -7,13 +7,14 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "3000:1337"
+      - "80:3000"
     environment:
       - DB_HOST=db
       - DB_USER=cms
       - DB_PASS=cms
       - DB_NAME=cms-db
       - JWT_SECRET=super_secret_secret
+      - PORT=3000
     depends_on:
       db:
         condition: service_healthy

@@ -10,7 +10,4 @@ router.get("/postcenter", jwtAuth.adminOnly, (req, res) => {
   res.render("postCenter")
 });
 
-
-
-
 module.exports = router;

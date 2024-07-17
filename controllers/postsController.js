@@ -1,13 +1,11 @@
 const postModels = require("../models/postModels");
 
-const { pool } = require("../config/db.js");
-
 const getAllPosts = async (req, res) => {
-  const result2 = await postModels.getAllPosts();
+  const result = await postModels.getAllPosts();
 
-  if (!result2) return res.json({ msg: "Someting went wrong" });
+  if (!result) return res.json({ msg: "Someting went wrong" });
 
-  return res.json(result2);
+  return res.json(result);
 }
 
 const sendNewPost = async (req, res) => {
@@ -16,7 +14,7 @@ const sendNewPost = async (req, res) => {
   if (!title || !content) return res.json({ msg: "fill all blanks" });
 
   try {
-    await pool.query("INSERT INTO posts SET ?", { title: title, content: content });
+    await postModels.createNewPost(title, content);
     return res.json({ msg: "done" });
   } catch (error) {
     return res.json({ msg: "error" });
@@ -25,9 +23,9 @@ const sendNewPost = async (req, res) => {
 
 const getCustomPostData = async (req, res) => {
   try {
-    const [data] = await pool.query("SELECT * FROM posts WHERE postid = ?", [req.params.id]);
+    const data = await postModels.getPostData(req.params.id); 
 
-    if (!data[0]) return res.json({ msg: "No post with this id" });
+    if (!data) return res.json({ msg: "No post with this id" });
 
     return res.json(data[0])
   } catch {
@@ -37,8 +35,10 @@ const getCustomPostData = async (req, res) => {
 
 const getCustomPostComments = async (req, res) => {
   try {
-    const [data] = await pool.query("SELECT * FROM comments WHERE post_id = ?", [req.params.id]);
-    if (!data[0]) return res.json({ msg: "No comments yet" });
+    const [data] = await postModels.getPostComments(req.params.id);
+
+    if (!data) return res.json({ msg: "No comments yet" });
+    
     return res.json(data)
   } catch {
     res.json({ msg: "Someting went wrong" });
@@ -51,12 +51,11 @@ const sendComment = async (req, res) => {
   if (!comment) return res.json({ msg: "Fill All Blanks Please" });
 
   try {
-    await pool.query("INSERT INTO comments SET ?", { post_id: req.params.id, user_email: req.usermail, comment: comment });
+    await postModels.addComment(req.params.id, req.usermail, comment);
     return res.json({ msg: "sent!" });
   } catch (error) {
     return res.json({ msg: "Someting went wrong" });
   }
 }
-
 
 module.exports = { getAllPosts, sendNewPost, getCustomPostData, getCustomPostComments, sendComment };

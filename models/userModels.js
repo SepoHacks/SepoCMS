@@ -5,4 +5,11 @@ const findUserByMail = async (email) => {
   return result[0] || null;
 }
 
-module.exports = { findUserByMail };
+const createNewUser = async (email, password) => {
+  await pool.query("INSERT INTO users SET ?", {
+    usermail: email,
+    password: password,
+  });
+}
+
+module.exports = { findUserByMail, createNewUser };

@@ -5,7 +5,7 @@
 // DotEnv
 require("dotenv").config();
 
-const PORT = process.env.port || 1337;
+const PORT = process.env.PORT || 3000;
 
 // Imports
 const express = require("express");
@@ -47,7 +47,6 @@ app.use("/", require("./routes/pages.js"));
 app.use("/posts", require("./routes/posts.js"));
 
 app.use("/dashboard", require("./routes/dashboard.js"));
-
 
 // Start
 db.connectToDatabase().then(() => {
