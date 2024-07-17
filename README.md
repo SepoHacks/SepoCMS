@@ -89,6 +89,8 @@ You can easily run your project using Docker. Follow the steps below to set up a
 
 - For further configuration or modifications, check the docker-compose.yml file.
 
+- The first user added will automatically have the admin role and will have access to the dashboard.
+
 If you successfully run your project and have any questions or suggestions, feel free to reach out!
 
 ```txt
