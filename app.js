@@ -10,6 +10,14 @@ const PORT = process.env.PORT || 3000;
 // Imports
 const express = require("express");
 const cookieParser = require("cookie-parser");
+const rateLimit = require('express-rate-limit');
+
+// Rate Limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  message: 'Too many requests, rest bro :D'
+});
 
 // Express
 const app = express();
@@ -28,6 +36,7 @@ app.use("/html", express.static(path.join(__dirname, "public", "html")));
 app.use("/assets", express.static(path.join(__dirname, "public", "assets")));
 
 // Middleware
+app.use(limiter);
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));

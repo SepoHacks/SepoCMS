@@ -14,7 +14,6 @@ router.get("/", jwtAuth.authenticate, (req, res) => {
 // Auth
 router.get("/login", (req, res) => {
   res.render("login");
-  console.log(req.ip);
 });
 
 router.get("/register", (req, res) => {
