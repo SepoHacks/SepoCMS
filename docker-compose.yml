@@ -10,8 +10,8 @@ services:
       - "80:3000"
     environment:
       - DB_HOST=db
-      - DB_USER=cms
-      - DB_PASS=cms
+      - DB_USER=sepo
+      - DB_PASS=sepo123
       - DB_NAME=cms-db
       - JWT_SECRET=super_secret_secret
       - PORT=3000
@@ -25,8 +25,8 @@ services:
     environment:
       - MYSQL_DATABASE=cms-db
       - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_USER=cms
-      - MYSQL_PASSWORD=cms
+      - MYSQL_USER=sepo
+      - MYSQL_PASSWORD=sepo123
     volumes:
       - mysql_data:/var/lib/mysql
     healthcheck:

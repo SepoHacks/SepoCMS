@@ -37,7 +37,7 @@ const getCustomPostComments = async (req, res) => {
   try {
     const data = await postModels.getPostComments(req.params.id);
 
-    if (!data) return res.json({ msg: "No comments yet" });
+    if (!data[0]) return res.json({ msg: "No comments yet" });
     
     return res.json(data)
   } catch {
