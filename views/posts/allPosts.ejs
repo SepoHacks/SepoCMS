@@ -42,6 +42,21 @@
         color: #ff7675;
       }
 
+      .dashboard-link {
+        display: inline-block;
+        margin-top: 1rem;
+        padding: 0.5rem 1rem;
+        background-color: #ff7675;
+        color: #ffffff;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+      }
+
+      .dashboard-link:hover {
+        background-color: #ff4d4d;
+      }
+
       .posts {
         display: flex;
         flex-direction: column;
@@ -115,6 +130,7 @@
     <div class="container">
       <div class="header">
         <h1>Forum Posts</h1>
+        <a href="/dashboard" class="dashboard-link">Go to Dashboard</a>
       </div>
       <div class="posts"></div>
     </div>
@@ -143,11 +159,11 @@
       function postHandler(data) {
         for (let i = 0; i < data.length; i++) {
           let postHtml = `
-          <div name="${data[i].postid}" class="postDiv">
-            <h2>${data[i].title}</h2>
-            <p>learn more</p>
-          </div>
-        `;
+                <div name="${data[i].postid}" class="postDiv">
+                    <h2>${data[i].title}</h2>
+                    <p>learn more</p>
+                </div>
+                `;
           postsEL.innerHTML += postHtml;
         }
 

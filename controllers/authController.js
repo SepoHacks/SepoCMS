@@ -28,14 +28,15 @@ const register = async (req, res) => {
 
   try {
     const user = await userModels.findUserByMail(email);
+    const usersCount = await userModels.getUsersCount();
 
-    if (user) {
-      return res.json({ msg: "There is a user with the same email." });
-    }
+    const role = usersCount === 0 ? "admin" : "user";
+
+    if (user) return res.json({ msg: "There is a user with the same email." });
 
     const hashedPassword = await bcrypt.hash(password, 8);
 
-    await userModels.createNewUser(email, hashedPassword);
+    await userModels.createNewUser(email, hashedPassword, role);
 
     return res.json({ red: "/login" });
   } catch (error) {

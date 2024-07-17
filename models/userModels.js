@@ -5,11 +5,17 @@ const findUserByMail = async (email) => {
   return result[0] || null;
 }
 
-const createNewUser = async (email, password) => {
+const createNewUser = async (email, password, role = "user") => {
   await pool.query("INSERT INTO users SET ?", {
     usermail: email,
     password: password,
+    role: role
   });
 }
 
-module.exports = { findUserByMail, createNewUser };
+const getUsersCount = async () => {
+  const [result] = await pool.query("SELECT COUNT(*) AS count FROM users");
+  return result[0].count;
+}
+
+module.exports = { findUserByMail, createNewUser, getUsersCount };
