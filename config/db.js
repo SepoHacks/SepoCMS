@@ -2,9 +2,9 @@ const mysql = require("mysql2/promise");
 
 const pool = mysql.createPool({
   host: process.env.DB_HOST || "localhost",
-  user: process.env.DB_USER || "root",
-  password: process.env.DB_PASS || "password",
-  database: process.env.DB_NAME || "SepoWasHere <3"
+  user: process.env.DB_USER || "sepo",
+  password: process.env.DB_PASS || "SuperSecret123",
+  database: process.env.DB_NAME || "Sepos_SuperSecret_DB"
 });
 
 const connectToDatabase = async () => {

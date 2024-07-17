@@ -213,10 +213,6 @@
           })
           .then((data) => {
             alertB.textContent = data.msg;
-            if (data.success) {
-              commentsEl.innerHTML += `<div class="comment"><strong>You:</strong> ${info.comment}</div>`;
-              userComEl.value = "";
-            }
           });
       });
     </script>

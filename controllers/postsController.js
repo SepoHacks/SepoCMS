@@ -35,7 +35,7 @@ const getCustomPostData = async (req, res) => {
 
 const getCustomPostComments = async (req, res) => {
   try {
-    const [data] = await postModels.getPostComments(req.params.id);
+    const data = await postModels.getPostComments(req.params.id);
 
     if (!data) return res.json({ msg: "No comments yet" });
     

@@ -10,13 +10,13 @@ const createNewPost = async (title, content) => {
 }
 
 const getPostData = async (id) => {
-  const [result] = await pool.query("SELECT * FROM posts WHERE postid = ?", [id]);
+  const result = await pool.query("SELECT * FROM posts WHERE postid = ?", [id]);
   return result[0] || null;
 }
 
 const getPostComments = async (id) => {
-  const [result] = await pool.query("SELECT * FROM comments WHERE post_id = ?", [id]);
-  return result || null;
+  const result = await pool.query("SELECT * FROM comments WHERE post_id = ?", [id]);
+  return result[0] || null;
 }
 
 const addComment = async (postid, email, comment) => {
