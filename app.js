@@ -11,6 +11,7 @@ const PORT = process.env.PORT || 3000;
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const rateLimit = require('express-rate-limit');
+const prometheus = require("./config/prometheus");
 
 // Rate Limiting
 const limiter = rateLimit({
@@ -40,6 +41,11 @@ app.use(limiter);
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
+
+app.use((req, res, next) => {
+  prometheus.httpRequestCount.inc({ method: req.method, route: req.route ? req.route.path : req.path });
+  next();
+});
 
 // EJS
 app.set("view engine", "ejs");

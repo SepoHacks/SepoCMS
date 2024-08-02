@@ -6,7 +6,7 @@ const getAllPosts = async (req, res) => {
   if (!result) return res.json({ msg: "Someting went wrong" });
 
   return res.json(result);
-}
+};
 
 const sendNewPost = async (req, res) => {
   const { title, content } = req.body;
@@ -19,31 +19,31 @@ const sendNewPost = async (req, res) => {
   } catch (error) {
     return res.json({ msg: "error" });
   }
-}
+};
 
 const getCustomPostData = async (req, res) => {
   try {
-    const data = await postModels.getPostData(req.params.id); 
+    const data = await postModels.getPostData(req.params.id);
 
     if (!data) return res.json({ msg: "No post with this id" });
 
-    return res.json(data[0])
+    return res.json(data[0]);
   } catch {
     res.json({ msg: "Oh no ther is no post with this id" });
   }
-}
+};
 
 const getCustomPostComments = async (req, res) => {
   try {
     const data = await postModels.getPostComments(req.params.id);
 
     if (!data[0]) return res.json({ msg: "No comments yet" });
-    
-    return res.json(data)
+
+    return res.json(data);
   } catch {
     res.json({ msg: "Someting went wrong" });
   }
-}
+};
 
 const sendComment = async (req, res) => {
   const { comment } = req.body;
@@ -56,6 +56,12 @@ const sendComment = async (req, res) => {
   } catch (error) {
     return res.json({ msg: "Someting went wrong" });
   }
-}
+};
 
-module.exports = { getAllPosts, sendNewPost, getCustomPostData, getCustomPostComments, sendComment };
+module.exports = {
+  getAllPosts,
+  sendNewPost,
+  getCustomPostData,
+  getCustomPostComments,
+  sendComment,
+};
