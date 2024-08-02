@@ -1,10 +1,10 @@
 const mysql = require("mysql2/promise");
 
 const pool = mysql.createPool({
-  host: process.env.DB_HOST || "localhost",
-  user: process.env.DB_USER || "sepo",
-  password: process.env.DB_PASS || "SuperSecret123",
-  database: process.env.DB_NAME || "Sepos_SuperSecret_DB"
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
 });
 
 const connectToDatabase = async () => {
@@ -17,7 +17,7 @@ const connectToDatabase = async () => {
     console.log("Database Error : ", error);
     return;
   }
-}
+};
 
 const createTables = async () => {
   const createUsersTable = `
@@ -47,13 +47,13 @@ const createTables = async () => {
   `;
 
   await pool.query(createUsersTable);
-  console.log('Users table created or already exists.');
+  console.log("Users table created or already exists.");
 
   await pool.query(createPostsTable);
-  console.log('Posts table created or already exists.');
+  console.log("Posts table created or already exists.");
 
   await pool.query(createCommentsTable);
-  console.log('Comments table created or already exists.');
+  console.log("Comments table created or already exists.");
 };
 
 module.exports = { pool, connectToDatabase };
