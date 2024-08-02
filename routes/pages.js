@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const prometheus = require('../config/prometheus.js');
+const prometheus = require("../config/prometheus.js");
 
 // Middleware
 const jwtAuth = require("../middleware/jwtAuth.js");
@@ -25,9 +25,15 @@ router.post("/register", authController.register);
 
 router.post("/login", authController.login);
 
-router.get('/metrics', async (req, res) => {
-  res.set('Content-Type', prometheus.prom.register.contentType);
+// Prometheus
+router.get("/metrics", async (req, res) => {
+  res.set("Content-Type", prometheus.prom.register.contentType);
   res.end(await prometheus.prom.register.metrics());
+});
+
+// Default
+router.get("/", (req, res) => {
+  res.render("landing");
 });
 
 module.exports = router;

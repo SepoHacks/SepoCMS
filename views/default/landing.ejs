@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sepo CMS</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --background: hsl(240, 5%, 6%);
+        --foreground: hsl(60, 5%, 90%);
+        --primary: hsl(240, 0%, 90%);
+        --primary-foreground: hsl(60, 0%, 0%);
+        --secondary: hsl(240, 4%, 15%);
+        --secondary-foreground: hsl(60, 5%, 85%);
+        --accent: hsl(240, 0%, 13%);
+        --accent-foreground: hsl(60, 0%, 100%);
+        --destructive: hsl(0, 60%, 50%);
+        --destructive-foreground: hsl(0, 0%, 98%);
+        --muted: hsl(240, 5%, 25%);
+        --muted-foreground: hsl(60, 5%, 85%);
+        --card: hsl(240, 4%, 10%);
+        --card-foreground: hsl(60, 5%, 90%);
+        --popover: hsl(240, 5%, 15%);
+        --popover-foreground: hsl(60, 5%, 85%);
+        --border: hsl(240, 6%, 20%);
+        --input: hsl(240, 6%, 20%);
+        --ring: hsl(240, 5%, 90%);
+        --radius: 0.5rem;
+      }
+
+      body {
+        background-color: var(--background);
+        color: var(--foreground);
+        font-family: "Roboto", sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      .content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        margin-bottom: 4rem; /* Adjust to create space for the footer */
+      }
+
+      .btn-primary {
+        background-color: var(--primary);
+        color: var(--primary-foreground);
+      }
+
+      .btn-secondary {
+        background-color: var(--secondary);
+        color: var(--secondary-foreground);
+      }
+
+      .card {
+        background-color: var(--card);
+        color: var(--card-foreground);
+        border-radius: var(--radius);
+        padding: 1rem;
+      }
+
+      .founder-card {
+        background-color: var(--muted);
+        color: var(--muted-foreground);
+        border-radius: var(--radius);
+        padding: 1rem;
+        max-width: 400px;
+      }
+
+      footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+      }
+
+      .cms {
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="content">
+      <div>
+        <header class="mb-12">
+          <h1 class="text-6xl font-bold mb-8 cms">Sepo CMS</h1>
+          <p class="text-lg">Content Management System written with Node.js.</p>
+        </header>
+
+        <main>
+          <div class="mt-8 space-y-4">
+            <button class="btn-primary px-6 py-3 rounded mr-2 text-xl">
+              Login
+            </button>
+            <button class="btn-secondary px-6 py-3 rounded ml-2 text-xl">
+              Register
+            </button>
+          </div>
+        </main>
+
+        <div class="founder-card mt-20">
+          <h2 class="text-xl font-bold mb-2">Founder</h2>
+          <p class="text-lg">Sepehr Bostan</p>
+          <p class="text-sm mt-2">A Full Stack Developer From Iran.</p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const btn1 = document.querySelector(".btn-primary");
+      const btn2 = document.querySelector(".btn-secondary");
+      const cms = document.querySelector(".cms");
+
+      cms.addEventListener("click", () => {
+        window.location.href = "app";
+      });
+
+      btn1.addEventListener("click", () => {
+        window.location.href = "login";
+      });
+
+      btn2.addEventListener("click", () => {
+        window.location.href = "register";
+      });
+    </script>
+  </body>
+</html>

@@ -10,14 +10,14 @@ const PORT = process.env.PORT || 3000;
 // Imports
 const express = require("express");
 const cookieParser = require("cookie-parser");
-const rateLimit = require('express-rate-limit');
+const rateLimit = require("express-rate-limit");
 const prometheus = require("./config/prometheus");
 
 // Rate Limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
-  message: 'Too many requests, rest bro :D'
+  message: "Too many requests, rest bro :D",
 });
 
 // Express
@@ -43,7 +43,10 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
-  prometheus.httpRequestCount.inc({ method: req.method, route: req.route ? req.route.path : req.path });
+  prometheus.httpRequestCount.inc({
+    method: req.method,
+    route: req.route ? req.route.path : req.path,
+  });
   next();
 });
 
@@ -54,6 +57,7 @@ app.set("views", [
   path.join(__dirname, "views/auth"),
   path.join(__dirname, "views/admin"),
   path.join(__dirname, "views/posts"),
+  path.join(__dirname, "views/default"),
 ]);
 
 // Routes
@@ -68,8 +72,7 @@ db.connectToDatabase().then(() => {
   app.listen(PORT, () => {
     console.log(`Listeting http://localhost:${PORT}`);
   });
-})
-
+});
 
 // "There is nothing to see here." - CyberSepo
 

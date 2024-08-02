@@ -1,5 +1,5 @@
-const express = require('express');
-const jwtAuth = require('../middleware/jwtAuth');
+const express = require("express");
+const jwtAuth = require("../middleware/jwtAuth");
 const router = express.Router();
 
 router.get("/", jwtAuth.adminOnly, (req, res) => {
@@ -7,7 +7,7 @@ router.get("/", jwtAuth.adminOnly, (req, res) => {
 });
 
 router.get("/postcenter", jwtAuth.adminOnly, (req, res) => {
-  res.render("postCenter")
+  res.render("postCenter");
 });
 
 module.exports = router;

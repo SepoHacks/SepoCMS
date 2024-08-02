@@ -3,18 +3,41 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Forum Post</title>
+    <title>Sepo CMS</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
       rel="stylesheet"
     />
     <style>
+      :root {
+        --background: hsl(240, 5%, 6%);
+        --foreground: hsl(60, 5%, 90%);
+        --primary: hsl(240, 0%, 90%);
+        --primary-foreground: hsl(60, 0%, 0%);
+        --secondary: hsl(240, 4%, 15%);
+        --secondary-foreground: hsl(60, 5%, 85%);
+        --accent: hsl(240, 0%, 13%);
+        --accent-foreground: hsl(60, 0%, 100%);
+        --destructive: hsl(0, 60%, 50%);
+        --destructive-foreground: hsl(0, 0%, 98%);
+        --muted: hsl(240, 5%, 25%);
+        --muted-foreground: hsl(60, 5%, 85%);
+        --card: hsl(240, 4%, 10%);
+        --card-foreground: hsl(60, 5%, 90%);
+        --popover: hsl(240, 5%, 15%);
+        --popover-foreground: hsl(60, 5%, 85%);
+        --border: hsl(240, 6%, 20%);
+        --input: hsl(240, 6%, 20%);
+        --ring: hsl(240, 5%, 90%);
+        --radius: 0.5rem;
+      }
+
       body,
       html {
         margin: 0;
         padding: 0;
-        background-color: #212121;
-        color: #ffffff;
+        background-color: var(--background);
+        color: var(--foreground);
         font-family: "Roboto", sans-serif;
         display: flex;
         justify-content: center;
@@ -28,8 +51,8 @@
         max-width: 1000px;
         margin: 2rem;
         padding: 5rem;
-        background-color: #2c2c2c;
-        border-radius: 10px;
+        background-color: var(--card);
+        border-radius: var(--radius);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         display: flex;
         flex-direction: column;
@@ -39,7 +62,7 @@
       .title {
         font-size: 3.5rem;
         margin-bottom: 1rem;
-        color: #ffd700;
+        color: var(--primary);
         text-align: center;
       }
 
@@ -53,29 +76,29 @@
       .comments {
         margin-top: 2rem;
         padding: 1rem;
-        background-color: #3a3a3a;
-        border-radius: 8px;
+        background-color: var(--secondary);
+        border-radius: var(--radius);
         width: 100%;
       }
 
       .comment {
         margin: 0.5rem 0;
         padding: 0.5rem;
-        border-bottom: 1px solid #555;
+        border-bottom: 1px solid var(--border);
       }
 
       .userCom {
         width: 100%;
         padding: 0.5rem;
         margin: 1rem 0;
-        border-radius: 8px;
-        border: 1px solid #555;
-        background-color: #444;
-        color: #fff;
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        background-color: var(--input);
+        color: var(--foreground);
       }
 
       .comment-alert {
-        color: #ff6347;
+        color: var(--destructive);
         margin-top: 0.5rem;
         text-align: center;
       }
@@ -83,12 +106,12 @@
       .com {
         display: block;
         width: 100%;
-        background-color: #6c5ce7;
+        background-color: var(--accent);
         border: none;
         padding: 0.75rem 1.5rem;
-        color: #fff;
+        color: var(--accent-foreground);
         font-size: 1rem;
-        border-radius: 8px;
+        border-radius: var(--radius);
         cursor: pointer;
         transition: background-color 0.3s;
         text-align: center;
@@ -96,7 +119,7 @@
       }
 
       .com:hover {
-        background-color: #5941d4;
+        background-color: var(--secondary);
       }
 
       @media (max-width: 768px) {
