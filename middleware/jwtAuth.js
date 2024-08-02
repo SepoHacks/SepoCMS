@@ -8,7 +8,7 @@ exports.authenticate = (req, res, next) => {
   const token = req.cookies.AccessToken;
 
   if (!token) {
-    prometheus.loginCount.inc({
+    prometheus.authCount.inc({
       status: "notoken",
       method: req.method,
       route: req.route ? req.route.path : req.path,
@@ -20,7 +20,7 @@ exports.authenticate = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.usermail = decoded.email;
-    prometheus.loginCount.inc({
+    prometheus.authCount.inc({
       status: "success",
       method: req.method,
       route: req.route ? req.route.path : req.path,
@@ -28,7 +28,7 @@ exports.authenticate = (req, res, next) => {
     });
     next();
   } catch (error) {
-    prometheus.loginCount.inc({
+    prometheus.authCount.inc({
       status: "failed",
       method: req.method,
       route: req.route ? req.route.path : req.path,
@@ -42,7 +42,7 @@ exports.adminOnly = async (req, res, next) => {
   const token = req.cookies.AccessToken;
 
   if (!token) {
-    prometheus.loginCount.inc({
+    prometheus.authCount.inc({
       status: "notoken",
       method: req.method,
       route: req.route ? req.route.path : req.path,
@@ -57,7 +57,7 @@ exports.adminOnly = async (req, res, next) => {
     const user = await userModels.findUserByMail(decoded.email);
 
     if (!user) {
-      prometheus.loginCount.inc({
+      prometheus.authCount.inc({
         status: "failed",
         method: req.method,
         route: req.route ? req.route.path : req.path,
@@ -67,7 +67,7 @@ exports.adminOnly = async (req, res, next) => {
     }
 
     if (!(user.role === "admin")) {
-      prometheus.loginCount.inc({
+      prometheus.authCount.inc({
         status: "failed",
         method: req.method,
         route: req.route ? req.route.path : req.path,
@@ -78,7 +78,7 @@ exports.adminOnly = async (req, res, next) => {
 
     next();
   } catch (error) {
-    prometheus.loginCount.inc({
+    prometheus.authCount.inc({
       status: "error",
       method: req.method,
       route: req.route ? req.route.path : req.path,

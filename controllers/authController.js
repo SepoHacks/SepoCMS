@@ -92,7 +92,7 @@ const login = async (req, res) => {
 
     prometheus.loginCount.inc({ status: "success" });
     res.cookie("AccessToken", userToken);
-    return res.json({ red: "/" });
+    return res.json({ red: "/app" });
   } catch (error) {
     console.error("Login Error:", error);
     prometheus.loginCount.inc({ status: "error" });

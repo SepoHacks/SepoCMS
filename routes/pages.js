@@ -8,7 +8,7 @@ const jwtAuth = require("../middleware/jwtAuth.js");
 // Controllers
 const authController = require("../controllers/authController.js");
 
-router.get("/", jwtAuth.authenticate, (req, res) => {
+router.get("/app", jwtAuth.authenticate, (req, res) => {
   res.render("allPosts");
 });
 
