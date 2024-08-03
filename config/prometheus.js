@@ -26,10 +26,17 @@ const authCount = new prom.Counter({
   labelNames: ["status", "method", "route", "type"],
 });
 
+const postCount = new prom.Counter({
+  name: "sepocms_posts_total",
+  help: "Total posts",
+  labelNames: ["status"],
+});
+
 module.exports = {
   httpRequestCount,
   loginCount,
   prom,
   registerCount,
   authCount,
+  postCount,
 };

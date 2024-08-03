@@ -1,4 +1,6 @@
-const postModels = require("../models/postModels");
+const postModels = require("../models/postModels.js");
+
+const prometheus = require("../config/prometheus.js");
 
 const getAllPosts = async (req, res) => {
   const result = await postModels.getAllPosts();
@@ -11,12 +13,17 @@ const getAllPosts = async (req, res) => {
 const sendNewPost = async (req, res) => {
   const { title, content } = req.body;
 
-  if (!title || !content) return res.json({ msg: "fill all blanks" });
+  if (!title || !content) {
+    prometheus.postCount.inc({ status: "blank" });
+    return res.json({ msg: "fill all blanks" });
+  }
 
   try {
     await postModels.createNewPost(title, content);
+    prometheus.postCount.inc({ status: "success" });
     return res.json({ msg: "done" });
   } catch (error) {
+    prometheus.postCount.inc({ status: "error" });
     return res.json({ msg: "error" });
   }
 };

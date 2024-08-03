@@ -5,6 +5,11 @@ const getAllPosts = async () => {
   return result || null;
 };
 
+const getAllPostsCount = async () => {
+  const [result] = await pool.query("SELECT * FROM posts");
+  return result.length || 0;
+};
+
 const createNewPost = async (title, content) => {
   await pool.query("INSERT INTO posts SET ?", {
     title: title,
@@ -36,4 +41,5 @@ module.exports = {
   getPostData,
   getPostComments,
   addComment,
+  getAllPostsCount,
 };
