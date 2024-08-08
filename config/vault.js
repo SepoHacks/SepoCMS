@@ -1,30 +1,33 @@
-const vault = require("node-vault");
+const config = require("../config.json");
 
-const vaultOptions = {
-  apiVersion: "v1",
-  endpoint: "http://192.168.122.105:8200",
-  token: "root",
+const vault = require("node-vault")({
+  apiVersion: config.vault.apiVersion,
+  endpoint: config.vault.endpoint,
+  token: config.vault.token,
+});
+
+const getDatabaseSecrets = async () => {
+  if (config.secretProvider === "vault") {
+    try {
+      const secret = await vault.read("???");
+      return secret.data;
+    } catch (error) {
+      console.error("Error fetching secrets from Vault:", error);
+      throw error;
+    }
+  } else if (config.secretProvider === "native") {
+    return {
+      DATABASE_HOST: config.native.DATABASE_HOST,
+      DATABASE_USER: config.native.DATABASE_USER,
+      DATABASE_PASS: config.native.DATABASE_PASS,
+      DATABASE_NAME: config.native.DATABASE_NAME,
+    };
+  } else {
+    throw new Error("Invalid secret provider");
+  }
 };
 
-const secrets = {};
-
-async function fetchSecrets() {
-  try {
-    const client = vault.client(vaultOptions);
-    const result = await client.read("secret/data/sepocms");
-
-    if (result && result.data && result.data.data) {
-      Object.assign(secrets, result.data.data);
-    } else {
-      throw new Error("Invalid data format received from Vault");
-    }
-  } catch (err) {
-    console.error("Error fetching secrets:", err);
-    throw err;
-  }
-}
-
 module.exports = {
-  fetchSecrets,
-  secrets,
+  config,
+  getDatabaseSecrets,
 };

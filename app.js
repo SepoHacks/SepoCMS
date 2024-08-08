@@ -11,8 +11,7 @@ const PORT = process.env.PORT || 3000;
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const rateLimit = require("express-rate-limit");
-const prometheus = require("./config/prometheus");
-const configHandler = require("./config/configHandler.js");
+const prometheus = require("./config/prometheus.js");
 const vault = require("./config/vault.js");
 
 // Rate Limiting
@@ -71,6 +70,13 @@ app.use("/dashboard", require("./routes/dashboard.js"));
 
 // Start
 db.connectToDatabase().then(() => {
+  if (
+    vault.config.secretProvider === "vault" &&
+    vault.config.vault.static === false
+  ) {
+    setInterval(db.updateDatabasePool, 1000 * 60 * 10);
+  }
+
   app.listen(PORT, () => {
     console.log(`Listeting http://localhost:${PORT}`);
   });

@@ -1,21 +1,35 @@
-const mysql = require("mysql2/promise");
+const mysql = require('mysql2/promise');
+const { getDatabaseSecrets } = require('./vault');
 
-const pool = mysql.createPool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  database: process.env.DB_NAME,
-});
+let pool;
+
+const updateDatabasePool = async () => {
+  try {
+    const secrets = await getDatabaseSecrets();
+    const { DATABASE_HOST, DATABASE_USER, DATABASE_PASS, DATABASE_NAME } = secrets;
+
+    pool = mysql.createPool({
+      host: DATABASE_HOST,
+      user: DATABASE_USER,
+      password: DATABASE_PASS,
+      database: DATABASE_NAME,
+    });
+
+    console.log('Database pool updated successfully');
+  } catch (error) {
+    console.error('Error updating database pool:', error);
+  }
+};
 
 const connectToDatabase = async () => {
   try {
+    await updateDatabasePool();
     await pool.getConnection();
-    console.log("Connected to database successfuly");
+    console.log('Connected to database successfully');
     createTables();
   } catch (error) {
-    console.log("Database Connection Faild!");
-    console.log("Database Error : ", error);
-    return;
+    console.log('Database Connection Failed!');
+    console.log('Database Error:', error);
   }
 };
 
@@ -46,14 +60,18 @@ const createTables = async () => {
     );
   `;
 
-  await pool.query(createUsersTable);
-  console.log("Users table created or already exists.");
+  try {
+    await pool.query(createUsersTable);
+    console.log('Users table created or already exists.');
 
-  await pool.query(createPostsTable);
-  console.log("Posts table created or already exists.");
+    await pool.query(createPostsTable);
+    console.log('Posts table created or already exists.');
 
-  await pool.query(createCommentsTable);
-  console.log("Comments table created or already exists.");
+    await pool.query(createCommentsTable);
+    console.log('Comments table created or already exists.');
+  } catch (error) {
+    console.error('Error creating tables:', error);
+  }
 };
 
-module.exports = { pool, connectToDatabase };
+module.exports = { pool, updateDatabasePool, connectToDatabase };

@@ -1,13 +1,12 @@
 {
-  "secretPorvider": "native",
-
-  "vaultOptions": {
-    "vaultApiVersion": "v1",
-    "vaultEndpoint": "http://0.0.0.0:8200",
-    "vaultToken": "root"
+  "secretProvider": "native",
+  "vault": {
+    "static" : false,
+    "apiVersion": "v1",
+    "endpoint": "http://0.0.0.0:8200",
+    "token": "root"
   },
-
-  "nativeOptions": {
+  "native": {
     "DATABASE_HOST": "0.0.0.0:3306",
     "DATABASE_USER": "superuser",
     "DATABASE_PASS": "supersecret",
