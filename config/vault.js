@@ -10,7 +10,7 @@ const secrets = {};
 
 async function fetchSecrets() {
   try {
-    const client = vault(vaultOptions);
+    const client = vault.client(vaultOptions);
     const result = await client.read("secret/data/sepocms");
 
     if (result && result.data && result.data.data) {

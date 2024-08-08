@@ -12,6 +12,7 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const rateLimit = require("express-rate-limit");
 const prometheus = require("./config/prometheus");
+const configHandler = require("./config/configHandler.js");
 const vault = require("./config/vault.js");
 
 // Rate Limiting
