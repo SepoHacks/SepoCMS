@@ -4,6 +4,15 @@ const prometheus = require("../config/prometheus.js");
 
 const userModels = require("../models/userModels.js");
 
+const vault = require("../config/vault.js");
+
+let jwt_secret;
+
+(() => {
+  secrets = vault.getStaticSecrets();
+  jwt_secret = secrets.JWT_TOKEN;
+})();
+
 exports.authenticate = (req, res, next) => {
   const token = req.cookies.AccessToken;
 
@@ -18,7 +27,7 @@ exports.authenticate = (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, jwt_secret);
     req.usermail = decoded.email;
     prometheus.authCount.inc({
       status: "success",
@@ -52,7 +61,7 @@ exports.adminOnly = async (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, jwt_secret);
 
     const user = await userModels.findUserByMail(decoded.email);
 
@@ -63,7 +72,7 @@ exports.adminOnly = async (req, res, next) => {
         route: req.route ? req.route.path : req.path,
         type: "adminauth",
       });
-      return res.redirect("login");
+      return res.redirect("/app");
     }
 
     if (!(user.role === "admin")) {
@@ -73,7 +82,8 @@ exports.adminOnly = async (req, res, next) => {
         route: req.route ? req.route.path : req.path,
         type: "adminauth",
       });
-      return res.redirect("login");
+      return res.send(`<h1>You are not authorized to access this page.</h1>
+        <a href="/app">Go Back</a>`);
     }
 
     next();
@@ -84,6 +94,6 @@ exports.adminOnly = async (req, res, next) => {
       route: req.route ? req.route.path : req.path,
       type: "adminauth",
     });
-    return res.redirect("/login");
+    return res.redirect("/app");
   }
 };

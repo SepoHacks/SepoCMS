@@ -1,14 +1,20 @@
-const { pool } = require("../config/db.js");
+const { getPool } = require("../config/db.js");
+
+const executeQuery = async (query, params) => {
+  const pool = getPool();
+  return await pool.query(query, params);
+};
 
 const findUserByMail = async (email) => {
-  const [result] = await pool.query("SELECT * FROM users WHERE usermail = ?", [
-    email,
-  ]);
+  const [result] = await executeQuery(
+    "SELECT * FROM users WHERE usermail = ?",
+    [email]
+  );
   return result[0] || null;
 };
 
 const createNewUser = async (email, password, role = "user") => {
-  await pool.query("INSERT INTO users SET ?", {
+  await executeQuery("INSERT INTO users SET ?", {
     usermail: email,
     password: password,
     role: role,
@@ -16,7 +22,7 @@ const createNewUser = async (email, password, role = "user") => {
 };
 
 const getUsersCount = async () => {
-  const [result] = await pool.query("SELECT COUNT(*) AS count FROM users");
+  const [result] = await executeQuery("SELECT COUNT(*) AS count FROM users");
   return result[0].count;
 };
 

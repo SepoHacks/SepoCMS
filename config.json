@@ -1,15 +1,19 @@
 {
-  "secretProvider": "native",
+  "secretProvider": "env",
   "vault": {
-    "static" : false,
+    "static": false,
     "apiVersion": "v1",
-    "endpoint": "http://0.0.0.0:8200",
-    "token": "root"
+    "endpoint": "http://127.0.0.1:8200",
+    "token": "vault-token",
+    "staticSecrets": "secret/data/sepocms",
+    "mysqlTempSecrets": "database/creds/my-role"
   },
   "native": {
-    "DATABASE_HOST": "0.0.0.0:3306",
-    "DATABASE_USER": "superuser",
-    "DATABASE_PASS": "supersecret",
-    "DATABASE_NAME": "Name"
+    "DATABASE_HOST": "127.0.0.1",
+    "DATABASE_USER": "sepehr",
+    "DATABASE_PASS": "sepehr1234",
+    "DATABASE_NAME": "sepocms",
+    "JWT_TOKEN": "1234",
+    "JWT_REFRESH_TOKEN": "4321"
   }
 }

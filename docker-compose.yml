@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   node_app:
@@ -8,12 +8,15 @@ services:
       dockerfile: Dockerfile
     ports:
       - "80:3000"
+    networks:
+      - cms-net
     environment:
-      - DB_HOST=db
-      - DB_USER=sepo
-      - DB_PASS=sepo123
-      - DB_NAME=cms-db
-      - JWT_SECRET=super_secret_secret
+      - DATABASE_HOST=db
+      - DATABASE_USER=root
+      - DATABASE_PASS=root
+      - DATABASE_NAME=cms-db
+      - JWT_TOKEN=super_secret_secret
+      - JWT_REFRESG_TOKEN=super_secret_secret2
       - PORT=3000
     depends_on:
       db:
@@ -22,19 +25,24 @@ services:
   db:
     container_name: mysql_db
     image: mysql:8
+    ports:
+      - "3306:3306"
     environment:
       - MYSQL_DATABASE=cms-db
       - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_USER=sepo
-      - MYSQL_PASSWORD=sepo123
     volumes:
       - mysql_data:/var/lib/mysql
+    networks:
+      - cms-net
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
+      interval: 2s
+      retries: 20
 
 volumes:
   mysql_data:
     driver: local
+
+networks:
+  cms-net:
+    driver: bridge

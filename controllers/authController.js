@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const vault = require("../config/vault.js");
 
 const prometheus = require("../config/prometheus.js");
 
@@ -85,8 +86,15 @@ const login = async (req, res) => {
       return res.json({ msg: "Invalid email or password." });
     }
 
+    let jwt_secret;
+
+    (() => {
+      secrets = vault.getStaticSecrets();
+      jwt_secret = secrets.JWT_TOKEN;
+    })();
+
     const userInfo = { email: email };
-    const userToken = jwt.sign(userInfo, process.env.JWT_SECRET, {
+    const userToken = jwt.sign(userInfo, jwt_secret, {
       expiresIn: "5m",
     });
 

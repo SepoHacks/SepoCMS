@@ -29,7 +29,6 @@ const db = require("./config/db");
 
 // Another Things
 const path = require("path");
-const { error } = require("console");
 
 // Public
 app.use("/js", express.static(path.join(__dirname, "public", "js")));
@@ -70,10 +69,7 @@ app.use("/dashboard", require("./routes/dashboard.js"));
 
 // Start
 db.connectToDatabase().then(() => {
-  if (
-    vault.config.secretProvider === "vault" &&
-    vault.config.vault.static === false
-  ) {
+  if (vault.config.secretProvider === "vault" && !vault.config.vault.static) {
     setInterval(db.updateDatabasePool, 1000 * 60 * 10);
   }
 
