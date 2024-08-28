@@ -6,13 +6,6 @@ const userModels = require("../models/userModels.js");
 
 const vault = require("../config/vault.js");
 
-let jwt_secret;
-
-(() => {
-  secrets = vault.getStaticSecrets();
-  jwt_secret = secrets.JWT_TOKEN;
-})();
-
 exports.authenticate = (req, res, next) => {
   const token = req.cookies.AccessToken;
 
@@ -25,6 +18,13 @@ exports.authenticate = (req, res, next) => {
     });
     return res.render("login");
   }
+
+  let jwt_secret;
+
+  (() => {
+    secrets = vault.getStaticSecrets();
+    jwt_secret = secrets.JWT_TOKEN;
+  })();
 
   try {
     const decoded = jwt.verify(token, jwt_secret);
@@ -59,6 +59,13 @@ exports.adminOnly = async (req, res, next) => {
     });
     return res.redirect("login");
   }
+
+  let jwt_secret;
+
+  (() => {
+    secrets = vault.getStaticSecrets();
+    jwt_secret = secrets.JWT_TOKEN;
+  })();
 
   try {
     const decoded = jwt.verify(token, jwt_secret);
