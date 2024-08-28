@@ -43,6 +43,7 @@ jobs:
       run: |
         until mysqladmin ping -h"${{ env.DATABASE_HOST }}" --silent; do
           echo 'waiting for mysql...'
+          pwd
           sleep 5
         done
 
@@ -60,7 +61,13 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
 
     - name: List files
-      run: ls -R
+      run: |
+        pwd
+        ls -a
+        cd ..
+        ls -a
+        
+        
 
     - name: Build Docker image
       run: |
