@@ -14,6 +14,9 @@ This project is a Content Management System (CMS) built with Node.js, Express, a
 - **Dynamic Content Management**: Manage various content types like articles, images, and videos.
 - **Responsive Design**: A responsive front-end that works on various devices.
 - **API Integration**: Easily integrate with other services using RESTful APIs.
+- **Prometheus Monitoring**: Integrated Prometheus metrics for monitoring application performance and health.
+- **Vault Integration**: Secure management of sensitive information using HashiCorp Vault.
+- **Config File Management**: Adjust settings through a centralized configuration file.
 
 ## Technologies Used
 
@@ -24,6 +27,8 @@ This project is a Content Management System (CMS) built with Node.js, Express, a
 - **BcryptJS**: A library for securely hashing passwords to protect user data.
 - **EJS**: Embedded JavaScript templating engine that enables dynamic HTML page generation with JavaScript.
 - **JsonWebToken**: A library for generating and verifying JSON Web Tokens (JWT) for secure user authentication.
+- **Prometheus**: Open-source monitoring and alerting toolkit used for gathering metrics and monitoring application health.
+- **Node-Vault**: For interacting with HashiCorp Vault to manage secrets.
 
 ## Installation
 
@@ -63,7 +68,7 @@ You can easily run your project using Docker. Follow the steps below to set up a
 
 4. **Access the Project:**
 
-   Once the services are running, you can access your project in your web browser at `http://localhost:80` (or the relevant port).
+   Once the services are running, you can access your project in your web browser at `http://localhost:3000` (or the relevant port).
 
 ## Additional Commands
 
