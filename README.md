@@ -40,9 +40,9 @@ You can easily run your project using Docker. Follow the steps below to set up a
    Open your terminal and run the following command to clone the project:
 
    ```bash
-   git clone https://github.com/SepoHacks/Sepo-CMS.git
+   git clone https://github.com/SepoHacks/SepoCMS.git
 
-   cd Sepo-CMS
+   cd SepoCMS
    ```
 
 2. **Build the Docker Image:**
